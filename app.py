@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 st.set_page_config(
-    page_title="🎬 Movie Recommender",
+    page_title="Movie Recommender",
     page_icon="🎬",
     layout="centered",
 )
@@ -44,7 +44,7 @@ genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-2.5-flash-lite")
 
 # ── UI ───────────────────────────────────────────────────────────────────────
-st.title("Movie Recommender")
+st.title("🎬 Movie Recommender")
 st.markdown('<p class="subtitle">Powered by Google Gemini AI</p>', unsafe_allow_html=True)
 
 movie_input = st.text_input(
