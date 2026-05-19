@@ -1,5 +1,5 @@
 import streamlit as st
-from google import genai
+fimport google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
@@ -71,7 +71,7 @@ Format it as a clean, readable list. Do not use excessive markdown."""
         try:
             with st.spinner("Finding movies you'll love..."):
                 response = client.models.generate_content(
-                    model="gemini-2.0-flash",
+                    model="gemini-2.5-flash-lite",
                     contents=prompt,
                 )
 
