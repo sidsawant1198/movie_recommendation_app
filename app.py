@@ -1,5 +1,5 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 import os
 from dotenv import load_dotenv
 
@@ -40,8 +40,7 @@ if not api_key:
     st.error("⚠️ Gemini API key not found. Add `GOOGLE_GEMINI_API` to your `.env` file or Streamlit secrets.")
     st.stop()
 
-genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-1.5-flash")
+client = genai.Client(api_key=api_key)
 
 # ── UI ───────────────────────────────────────────────────────────────────────
 st.title("Movie Recommender")
@@ -71,7 +70,10 @@ Format it as a clean, readable list. Do not use excessive markdown."""
 
         try:
             with st.spinner("Finding movies you'll love..."):
-                response = model.generate_content(prompt)
+                response = client.models.generate_content(
+                    model="gemini-2.0-flash",
+                    contents=prompt,
+                )
 
             st.success(f'Here are recommendations based on **"{movie_input}"**:')
             st.markdown(
@@ -79,4 +81,8 @@ Format it as a clean, readable list. Do not use excessive markdown."""
                 unsafe_allow_html=True,
             )
         except Exception as e:
-            st.error(f"Something went wrong: {e}")
+            err = str(e)
+            if "429" in err or "quota" in err.lower() or "rate" in err.lower():
+                st.warning("⏳ The AI is a bit busy right now — you've hit the free tier rate limit. Wait about 30–60 seconds and try again.")
+            else:
+                st.error(f"Something went wrong: {e}")
