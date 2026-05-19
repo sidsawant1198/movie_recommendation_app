@@ -41,20 +41,25 @@ if not api_key:
     st.stop()
 
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel("gemini-2.5-flash-lite")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # ── UI ───────────────────────────────────────────────────────────────────────
 st.title("🎬 Movie Recommender")
 st.markdown('<p class="subtitle">Powered by Google Gemini AI</p>', unsafe_allow_html=True)
 
-movie_input = st.text_input(
-    "Enter a movie you love:",
-    placeholder="e.g. Inception, The Dark Knight, Parasite...",
-)
+with st.form("movie_form"):
+    movie_input = st.text_input(
+        "Enter a movie you love:",
+        placeholder="e.g. Inception, The Dark Knight, Parasite...",
+    )
 
-col1, col2, col3 = st.columns([2, 1, 2])
-with col2:
-    submit = st.button("Recommend →", use_container_width=True)
+    col1, col2, col3 = st.columns([2, 1, 2])
+
+    with col2:
+        submit = st.form_submit_button(
+            "Recommend →",
+            use_container_width=True
+        )
 
 # ── Logic ─────────────────────────────────────────────────────────────────────
 if submit:
