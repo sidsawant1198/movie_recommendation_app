@@ -47,7 +47,7 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 st.title("🎬 Movie Recommender")
 st.markdown('<p class="subtitle">Powered by Google Gemini AI</p>', unsafe_allow_html=True)
 
-with st.form("movie_form"):
+with st.form("movie_form", enter_to_submit=False):
     movie_input = st.text_input(
         "Enter a movie you love:",
         placeholder="e.g. Inception, The Dark Knight, Parasite...",
